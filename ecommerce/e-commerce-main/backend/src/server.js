@@ -1,5 +1,4 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
@@ -8,10 +7,11 @@ import orderRoutes from "./routes/orders.js";
 import admindproductRoutes from "./routes/adminProducts.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+dotenv.config();
 import jwt from "jsonwebtoken";
 import { authenticateToken } from "./middleware/authMiddleware.js";
 
-dotenv.config();
 const app = express();
 
 // Connect DB
@@ -20,6 +20,7 @@ connectDB();
 const allowedOrigins = [
   "https://e-commerce-teal-iota-85.vercel.app",
   "http://localhost:5173",
+  "http://localhost:5175",
 ];
 
 //Allow frontend connection
@@ -36,7 +37,7 @@ app.use(express.json());
 
 // Default route
 app.get("/", (req, res) => {
-  res.send("API is running...");
+  res.send("Backend is running and connected to MongoDB!");
 });
 
 // Routes

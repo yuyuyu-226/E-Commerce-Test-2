@@ -4,7 +4,7 @@ import { User, Mail, Lock, CheckCircle, AlertTriangle, Loader, UserPlus } from '
 
 // --- Configuration (Option B: Best Practice) ---
 // 1. Get the ROOT URL from the environment variable (e.g., https://your-backend.vercel.app)
-const API_BASE_URL = `${import.meta.env.VITE_API_URL}/auth`;
+const API_BASE_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/auth`;
 
 // Basic email format validation regex
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

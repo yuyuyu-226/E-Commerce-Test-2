@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Shield, Plus, Edit, Trash2, Search, Loader2, AlertCircle, X, Save, Lock, ImageOff, AlertTriangle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const RAW_BASE_URL = import.meta.env.VITE_API_URL;
+const RAW_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const BASE_URL = RAW_BASE_URL ? RAW_BASE_URL.replace(/\/$/, '') : '';
 

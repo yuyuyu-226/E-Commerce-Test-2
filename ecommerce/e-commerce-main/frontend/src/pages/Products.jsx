@@ -3,9 +3,10 @@ import { Image, ShoppingCart, AlertTriangle, Search, Filter, ChevronDown, X } fr
 import { useNavigate } from 'react-router-dom';
 import ProductCardSkeleton from '../components/ProductCardSkeleton.jsx'; // Import the skeleton
 
+
 // Base URL for your Express backend
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 // --- Product Card Component ---
 const ProductCard = ({ product }) => {

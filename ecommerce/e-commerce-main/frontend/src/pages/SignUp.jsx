@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, CheckCircle, AlertTriangle, Loader, UserPlus } from 'lucide-react';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 // Validation Regex
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -146,7 +146,7 @@ const SignUp = () => {
           <div className="flex flex-col md:flex-row md:space-x-4 space-y-5 md:space-y-0">
             <div className="w-full">
               <label htmlFor="firstName" className="block text-sm font-semibold mb-1" style={{ color: 'var(--color-secondary-subtle)' }}>First Name</label>
-              <input type="text" id="firstName" name="firstName" placeholder="John" value={formData.firstName} onChange={handleChange} className={inputClass('firstName', false)} />
+              <input type="text" id="InvalidRegisterFirstName" name="firstName" placeholder="John" value={formData.firstName} onChange={handleChange} className={inputClass('firstName', false)} />
               {errors.firstName && <p className="text-sm text-red-600 mt-1 flex items-center"><AlertTriangle className="w-4 h-4 mr-1" />{errors.firstName}</p>}
             </div>
             <div className="w-full">
