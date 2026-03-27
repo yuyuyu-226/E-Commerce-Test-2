@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "Jest"
+    "test": "jest --runInBand --maxWorkers=1",
+    "test:products-flow": "jest --runInBand --maxWorkers=1 STProductsFlow.test.js",
+    "test:nav": "jest --runInBand --maxWorkers=1 nav*.test.js button*.test.js *To*.test.js"
   },
   "keywords": [],
   "author": "",
@@ -11,9 +13,22 @@
   "description": "",
   "dependencies": {
     "chromedriver": "^146.0.6",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.3.3",
     "selenium-webdriver": "^4.41.0"
   },
   "devDependencies": {
     "jest": "^30.3.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuyuyu-226/E-Commerce-Test-2.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yuyuyu-226/E-Commerce-Test-2/issues"
+  },
+  "homepage": "https://github.com/yuyuyu-226/E-Commerce-Test-2#readme"
 }

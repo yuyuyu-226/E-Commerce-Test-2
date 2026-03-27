@@ -8,7 +8,9 @@ import admindproductRoutes from "./routes/adminProducts.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, "../.env") });
 import jwt from "jsonwebtoken";
 import { authenticateToken } from "./middleware/authMiddleware.js";
 
@@ -47,8 +49,6 @@ app.use("/orders", orderRoutes);
 app.use("/admin/products", admindproductRoutes);
 
 // Serve static images
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 //Server
