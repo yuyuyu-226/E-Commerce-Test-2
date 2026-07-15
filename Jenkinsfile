@@ -29,7 +29,6 @@ pipeline {
     }
     
     environment {
-        // Use workspace directory instead of system directory
         ARCHIVE_DIR = "${WORKSPACE}/archived-builds"
         BACKEND_DIR = 'ecommerce/e-commerce-main/backend'
         FRONTEND_DIR = 'ecommerce/e-commerce-main/frontend'
@@ -227,9 +226,9 @@ pipeline {
                                 
                                 mkdir -p ${ARCHIVE_DIR}
                                 cd package
-                                zip -r ${ARCHIVE_DIR}/app-${env.RELEASE_VERSION}.zip .
+                                tar -czf ${ARCHIVE_DIR}/app-${env.RELEASE_VERSION}.tar.gz .
                             """
-                            echo "Package created: app-${env.RELEASE_VERSION}.zip"
+                            echo "Package created: app-${env.RELEASE_VERSION}.tar.gz"
                         }
                     }
                 }
@@ -237,7 +236,7 @@ pipeline {
                 stage('2.7 - Archive Artifact') {
                     steps {
                         script {
-                            archiveArtifacts artifacts: "${ARCHIVE_DIR}/app-${env.RELEASE_VERSION}.zip"
+                            archiveArtifacts artifacts: "${ARCHIVE_DIR}/app-${env.RELEASE_VERSION}.tar.gz"
                             echo "Artifact archived in Jenkins"
                         }
                     }
@@ -275,7 +274,7 @@ pipeline {
                     steps {
                         script {
                             sh """
-                                unzip ${ARCHIVE_DIR}/${params.DEPLOY_PACKAGE} -d deployments/${params.DEPLOY_TARGET}/
+                                tar -xzf ${ARCHIVE_DIR}/${params.DEPLOY_PACKAGE} -C deployments/${params.DEPLOY_TARGET}/
                             """
                             echo "Package extracted"
                         }
@@ -354,7 +353,7 @@ def getAvailablePackages() {
     def packages = []
     try {
         def archivePath = "${WORKSPACE}/archived-builds"
-        def files = findFiles(glob: "${archivePath}/app-*.zip")
+        def files = findFiles(glob: "${archivePath}/app-*.tar.gz")
         files.each { file ->
             packages.add(file.getName())
         }
