@@ -4,7 +4,30 @@ pipeline {
     tools {
         nodejs 'NodeJS-20'
     }
-    
+
+    parameters {
+        choice(
+            name: 'RELEASE_MODE',
+            choices: ['devSnapshot', 'Specific Version'],
+            description: 'Select release type'
+        )
+        string(
+            name: 'VERSION_STRING',
+            defaultValue: '',
+            description: 'Enter version (e.g., v1.0.0) for Specific Version'
+        )
+        choice(
+            name: 'DEPLOY_TARGET',
+            choices: ['Staging', 'UAT', 'Production'],
+            description: 'Select target environment'
+        )
+        choice(
+            name: 'DEPLOY_PACKAGE',
+            choices: ['No packages available'],
+            description: 'Select package to deploy'
+        )
+    }
+
     environment {
         ARCHIVE_DIR = '/var/lib/jenkins/archived-builds'
         BACKEND_DIR = 'ecommerce/e-commerce-main/backend'
