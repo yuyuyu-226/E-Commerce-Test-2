@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'Tests skipped for CI' && exit 0",
+    "test": "echo 'Tests skipped for CI - no browser available' && exit 0",
     "test:products-flow": "echo 'Tests skipped for CI' && exit 0",
     "test:nav": "echo 'Tests skipped for CI' && exit 0",
     "build": "echo 'Root build complete'"
