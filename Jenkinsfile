@@ -236,7 +236,7 @@ pipeline {
                 stage('2.7 - Archive Artifact') {
                     steps {
                         script {
-                            archiveArtifacts artifacts: "${ARCHIVE_DIR}/app-${env.RELEASE_VERSION}.tar.gz"
+                            archiveArtifacts artifacts: "archived-builds/app-${env.RELEASE_VERSION}.tar.gz"
                             echo "Artifact archived in Jenkins"
                         }
                     }
