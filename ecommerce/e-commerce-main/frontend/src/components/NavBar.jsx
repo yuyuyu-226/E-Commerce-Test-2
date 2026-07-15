@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react'; // 1. Import useContext
 import { Home, ShoppingBag, Mail, Info, LogIn, LogOut, Menu, X, User as UserIcon, Shield } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthContext } from './AuthContext.jsx'; // 2. Import the context
 
-const navLinks = [
-  { name: 'Home', icon: Home, path: '/' },
-  { name: 'Products', icon: ShoppingBag, path: '/products' },
-  { name: 'Contact', icon: Mail, path: '/contact' },
-  { name: 'About', icon: Info, path: '/about' },
-];
+// const navLinks = [
+//   { name: 'Home', icon: Home, path: '/' },
+//   { name: 'Products', icon: ShoppingBag, path: '/products' },
+//   { name: 'Contact', icon: Mail, path: '/contact' },
+//   { name: 'About', icon: Info, path: '/about' },
+// ];
 
 // 3. Remove props: isLoggedIn, user, onLogout
 const NavBar = () => {
@@ -16,7 +16,7 @@ const NavBar = () => {
   const { isLoggedIn, user, handleLogout } = useContext(AuthContext);
 
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Handle the logout action
   const onLogoutClick = () => {
