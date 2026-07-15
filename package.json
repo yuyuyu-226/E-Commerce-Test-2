@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest --runInBand --maxWorkers=1",
     "test:products-flow": "jest --runInBand --maxWorkers=1 STProductsFlow.test.js",
-    "test:nav": "jest --runInBand --maxWorkers=1 nav*.test.js button*.test.js *To*.test.js"
+    "test:nav": "jest --runInBand --maxWorkers=1 nav*.test.js button*.test.js *To*.test.js",
+    "build": "echo 'Root build complete'"
   },
   "keywords": [],
   "author": "",
