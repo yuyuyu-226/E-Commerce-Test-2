@@ -408,6 +408,4 @@ def getTargetServer(env) {
         default:
             return 'localhost'
     }
-}git add Jenkinsfile
-git commit -m "Remove input blocks, use parameters only"
-git push origin test
+}
