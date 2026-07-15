@@ -4,22 +4,22 @@ pipeline {
     tools {
         nodejs 'NodeJS-20'
     }
-
+    
     parameters {
         choice(
             name: 'RELEASE_MODE',
             choices: ['devSnapshot', 'Specific Version'],
-            description: 'Select release type'
+            description: 'Select release type (Phase 2)'
         )
         string(
             name: 'VERSION_STRING',
             defaultValue: '',
-            description: 'Enter version (e.g., v1.0.0) for Specific Version'
+            description: 'For Specific Version, enter version (e.g., v1.2.0)'
         )
         choice(
             name: 'DEPLOY_TARGET',
             choices: ['Staging', 'UAT', 'Production'],
-            description: 'Select target environment'
+            description: 'Select target environment (Phase 3)'
         )
         choice(
             name: 'DEPLOY_PACKAGE',
@@ -27,7 +27,7 @@ pipeline {
             description: 'Select package to deploy'
         )
     }
-
+    
     environment {
         ARCHIVE_DIR = '/var/lib/jenkins/archived-builds'
         BACKEND_DIR = 'ecommerce/e-commerce-main/backend'
@@ -52,9 +52,6 @@ pipeline {
                         script {
                             if (fileExists('package.json')) {
                                 sh 'npm install'
-                                echo 'Root dependencies installed'
-                            } else {
-                                echo 'No root package.json found, skipping'
                             }
                         }
                     }
@@ -164,25 +161,6 @@ pipeline {
         
         stage('Phase 2: Delivery') {
             when { branch 'main' }
-            
-            input {
-                message 'Phase 2: Release Delivery'
-                ok 'Proceed'
-                submitter 'devops-engineer,release-manager'
-                parameters {
-                    choice(
-                        name: 'RELEASE_MODE',
-                        choices: ['devSnapshot', 'Specific Version'],
-                        description: 'Select release type'
-                    )
-                    string(
-                        name: 'VERSION_STRING',
-                        defaultValue: '',
-                        description: 'Enter version (e.g., v1.0.0) for Specific Version'
-                    )
-                }
-            }
-            
             stages {
                 stage('2.1 - Checkout') {
                     steps { checkout scm }
@@ -206,10 +184,8 @@ pipeline {
                 
                 stage('2.3 - Install All Dependencies') {
                     steps {
-                        script {
-                            if (fileExists('package.json')) {
-                                sh 'npm install'
-                            }
+                        if (fileExists('package.json')) {
+                            sh 'npm install'
                         }
                         dir("${BACKEND_DIR}") { sh 'npm install' }
                         dir("${FRONTEND_DIR}") { sh 'npm install' }
@@ -249,7 +225,6 @@ pipeline {
                                 cp version.json package/
                                 cp ${ENV_FILE} package/backend/.env
                                 
-                                # Copy root package.json if it exists
                                 if [ -f package.json ]; then
                                     cp package.json package/
                                 fi
@@ -276,25 +251,6 @@ pipeline {
         
         stage('Phase 3: Deployment') {
             when { branch 'main' }
-            
-            input {
-                message 'Phase 3: Deploy to Environment'
-                ok 'Deploy'
-                submitter 'infrastructure-team,deployment-team'
-                parameters {
-                    choice(
-                        name: 'DEPLOY_TARGET',
-                        choices: ['Staging', 'UAT', 'Production'],
-                        description: 'Target environment'
-                    )
-                    choice(
-                        name: 'DEPLOY_PACKAGE',
-                        choices: 'getAvailablePackages()',
-                        description: 'Package to deploy'
-                    )
-                }
-            }
-            
             stages {
                 stage('3.1 - Validate Package') {
                     steps {
@@ -361,9 +317,6 @@ pipeline {
                                 echo "Deployment to ${params.DEPLOY_TARGET} started at \$(date)"
                                 echo "Backend deployed to: ${targetServer}/backend"
                                 echo "Frontend deployed to: ${targetServer}/frontend"
-                                if [ -f deployments/${params.DEPLOY_TARGET}/package.json ]; then
-                                    echo "Root package.json included in deployment"
-                                fi
                                 echo "Deployment completed at \$(date)"
                             """
                         }
@@ -455,4 +408,6 @@ def getTargetServer(env) {
         default:
             return 'localhost'
     }
-}
+}git add Jenkinsfile
+git commit -m "Remove input blocks, use parameters only"
+git push origin test
