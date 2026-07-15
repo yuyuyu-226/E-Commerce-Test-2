@@ -6,6 +6,7 @@
     "test": "jest --runInBand",
     "test:products-flow": "jest --runInBand STProductsFlow.test.js",
     "test:nav": "jest --runInBand nav*.test.js button*.test.js *To*.test.js",
+    "build": "echo 'Root build complete'"
   },
   "keywords": [],
   "author": "",
