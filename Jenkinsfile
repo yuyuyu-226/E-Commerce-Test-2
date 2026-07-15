@@ -184,8 +184,10 @@ pipeline {
                 
                 stage('2.3 - Install All Dependencies') {
                     steps {
-                        if (fileExists('package.json')) {
-                            sh 'npm install'
+                        script {
+                            if (fileExists('package.json')) {
+                                sh 'npm install'
+                            }
                         }
                         dir("${BACKEND_DIR}") { sh 'npm install' }
                         dir("${FRONTEND_DIR}") { sh 'npm install' }
