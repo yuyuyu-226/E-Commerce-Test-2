@@ -48,7 +48,7 @@ const ForgotPassword = () => {
         // Return success message to avoid exposing user presence
         setMessage('If an account exists for this email, a reset link has been sent.');
       }
-    } catch (e) {
+    } catch {
       setMessage('If an account exists for this email, a reset link has been sent.');
     } finally {
       setIsSubmitting(false);
