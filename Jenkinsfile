@@ -38,7 +38,6 @@ pipeline {
     
     stages {
         stage('Phase 1: CI') {
-            when { branch 'main' }
             stages {
                 stage('1.1 - Code Checkout') {
                     steps {
@@ -160,7 +159,6 @@ pipeline {
         }
         
         stage('Phase 2: Delivery') {
-            when { branch 'main' }
             stages {
                 stage('2.1 - Checkout') {
                     steps { checkout scm }
@@ -252,7 +250,6 @@ pipeline {
         }
         
         stage('Phase 3: Deployment') {
-            when { branch 'main' }
             stages {
                 stage('3.1 - Validate Package') {
                     steps {
