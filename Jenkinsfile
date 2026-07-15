@@ -29,7 +29,8 @@ pipeline {
     }
     
     environment {
-        ARCHIVE_DIR = '/var/lib/jenkins/archived-builds'
+        // Use workspace directory instead of system directory
+        ARCHIVE_DIR = "${WORKSPACE}/archived-builds"
         BACKEND_DIR = 'ecommerce/e-commerce-main/backend'
         FRONTEND_DIR = 'ecommerce/e-commerce-main/frontend'
         QA_DIR = 'QA/tests'
@@ -108,9 +109,7 @@ pipeline {
                     steps {
                         dir("${FRONTEND_DIR}") {
                             script {
-                                // Skip Selenium tests in CI environment
                                 echo 'Skipping Selenium tests (CI environment - no browser)'
-                                // sh 'npm run test:selenium'
                             }
                         }
                     }
@@ -354,7 +353,8 @@ pipeline {
 def getAvailablePackages() {
     def packages = []
     try {
-        def files = findFiles(glob: "${ARCHIVE_DIR}/app-*.zip")
+        def archivePath = "${WORKSPACE}/archived-builds"
+        def files = findFiles(glob: "${archivePath}/app-*.zip")
         files.each { file ->
             packages.add(file.getName())
         }
