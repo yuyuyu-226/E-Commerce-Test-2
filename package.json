@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand --maxWorkers=1",
-    "test:products-flow": "jest --runInBand --maxWorkers=1 STProductsFlow.test.js",
-    "test:nav": "jest --runInBand --maxWorkers=1 nav*.test.js button*.test.js *To*.test.js",
-    "build": "echo 'Root build complete'"
+    "test": "jest --runInBand",
+    "test:products-flow": "jest --runInBand STProductsFlow.test.js",
+    "test:nav": "jest --runInBand nav*.test.js button*.test.js *To*.test.js",
   },
   "keywords": [],
   "author": "",
