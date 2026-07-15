@@ -352,6 +352,7 @@ pipeline {
 def getAvailablePackages() {
     def packages = []
     try {
+        // Use WORKSPACE environment variable to get the correct path
         def archivePath = "${WORKSPACE}/archived-builds"
         def files = findFiles(glob: "${archivePath}/app-*.tar.gz")
         files.each { file ->
