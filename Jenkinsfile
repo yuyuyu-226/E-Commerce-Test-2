@@ -358,7 +358,7 @@ pipeline {
             sh 'rm -rf deployments/ package/'
         }
     }
-}
+
 
 def getAvailablePackages() {
     def packages = []
