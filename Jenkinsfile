@@ -21,15 +21,15 @@ pipeline {
             choices: ['Staging', 'UAT', 'Production'],
             description: 'Select target environment (Phase 3)'
         )
-        choice(
+        string(
             name: 'DEPLOY_PACKAGE',
-            choices: ['No packages available'],
-            description: 'Select package to deploy'
+            defaultValue: 'app-devSnapshot-build1.zip',
+            description: 'Enter zip filename'
         )
     }
     
     environment {
-        ARCHIVE_DIR = '/var/lib/jenkins/archived-builds'
+        ARCHIVE_DIR = 'archived-builds'
         BACKEND_DIR = 'ecommerce/e-commerce-main/backend'
         FRONTEND_DIR = 'ecommerce/e-commerce-main/frontend'
         QA_DIR = 'QA/tests'
@@ -216,21 +216,25 @@ pipeline {
                     steps {
                         script {
                             sh """
-                                mkdir -p package
-                                cp -r ${BACKEND_DIR} package/backend
-                                cp -r ${FRONTEND_DIR}/dist package/frontend
-                                cp version.json package/
-                                cp ${ENV_FILE} package/backend/.env
-                                
-                                if [ -f package.json ]; then
-                                    cp package.json package/
-                                fi
-                                
-                                mkdir -p ${ARCHIVE_DIR}
-                                cd package
-                                zip -r ${ARCHIVE_DIR}/app-${env.RELEASE_VERSION}.zip .
+                             rm -rf package
+                             mkdir -p package
+                             mkdir -p ${ARCHIVE_DIR}
+
+                             cp -r ${BACKEND_DIR} package/backend
+                             cp -r ${FRONTEND_DIR}/dist package/frontend
+                             cp version.json package/
+
+                             if [ -f ${ENV_FILE} ]; then
+                             cp ${ENV_FILE} package/backend/.env
+                             fi
+
+                             if [ -f package.json ]; then
+                             cp package.json package/
+                             fi
+
+                             cd package
+                             zip -r ../${ARCHIVE_DIR}/app-${env.RELEASE_VERSION}.zip .
                             """
-                            echo "Package created: app-${env.RELEASE_VERSION}.zip"
                         }
                     }
                 }
@@ -238,7 +242,10 @@ pipeline {
                 stage('2.7 - Archive Artifact') {
                     steps {
                         script {
-                            archiveArtifacts artifacts: "${ARCHIVE_DIR}/app-${env.RELEASE_VERSION}.zip"
+                            archiveArtifacts(
+                             artifacts: "archived-builds/*.zip",
+                             fingerprint: true
+                        )
                             echo "Artifact archived in Jenkins"
                         }
                     }
@@ -274,10 +281,12 @@ pipeline {
                 
                 stage('3.3 - Extract Package') {
                     steps {
-                        script {
-                            sh """
-                                unzip ${ARCHIVE_DIR}/${params.DEPLOY_PACKAGE} -d deployments/${params.DEPLOY_TARGET}/
-                            """
+                        sh """
+                        mkdir -p deployments/${params.DEPLOY_TARGET}
+
+                        unzip -o ${ARCHIVE_DIR}/${params.DEPLOY_PACKAGE} \
+                        -d deployments/${params.DEPLOY_TARGET}
+                        """
                             echo "Package extracted"
                         }
                     }
